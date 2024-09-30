@@ -3,6 +3,7 @@ import { NavbarEndComponent } from './components/navbar-end.component';
 import { NavbarSideMenuItemsComponent } from './components/navbar-side-menu-items.component';
 import { NavbarCenterMenuItemsComponent } from './components/navbar-center-menu-items.component';
 import { LinkItem } from './types';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -12,6 +13,7 @@ import { LinkItem } from './types';
     NavbarEndComponent,
     NavbarSideMenuItemsComponent,
     NavbarCenterMenuItemsComponent,
+    RouterLink,
   ],
   template: `
     <div class="navbar bg-base-100">
@@ -33,9 +35,9 @@ import { LinkItem } from './types';
               />
             </svg>
           </div>
-          <app-navbar-side-menu-items />
+          <app-navbar-side-menu-items [linkItems]="navbarItems" />
         </div>
-        <a class="btn btn-ghost text-xl">daisyUI</a>
+        <a routerLink="/" class="btn btn-ghost text-xl">Applied Angular</a>
       </div>
       <div class="navbar-center hidden lg:flex">
         <app-navbar-center-menu-items [linkItems]="navbarItems" />
@@ -49,7 +51,7 @@ import { LinkItem } from './types';
 })
 export class NavbarComponent {
   navbarItems: LinkItem[] = [
-    { path: '/learning1', text: 'Learning 1' },
+    { path: '/learning', text: 'Learning' },
     { path: '/learning2', text: 'Learning 2' },
   ];
 }

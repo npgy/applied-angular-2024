@@ -1,11 +1,12 @@
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { LinkItem } from '../types';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar-side-menu-items',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [RouterLink],
   template: `
     <ul
       tabindex="0"
@@ -13,7 +14,9 @@ import { LinkItem } from '../types';
     >
       @for(link of linkItems(); track $index) {
 
-      <li><a [href]="link.path"></a>{{ link.text }}</li>
+      <li>
+        <a [routerLink]="link.path">{{ link.text }}</a>
+      </li>
       }
     </ul>
   `,

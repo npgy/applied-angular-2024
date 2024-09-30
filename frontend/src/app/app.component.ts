@@ -7,7 +7,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   standalone: true,
   template: `
     <app-navbar />
-    <main class="container mx-auto"></main>
+    <main class="container mx-auto">
+      <router-outlet />
+    </main>
   `,
   styles: [],
   imports: [RouterOutlet, NavbarComponent],
