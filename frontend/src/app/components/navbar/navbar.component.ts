@@ -1,12 +1,18 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NavbarEndComponent } from './components/navbar-end.component';
-import { NavbarItemsComponent } from './components/navbar-items.component';
+import { NavbarSideMenuItemsComponent } from './components/navbar-side-menu-items.component';
+import { NavbarCenterMenuItemsComponent } from './components/navbar-center-menu-items.component';
+import { LinkItem } from './types';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NavbarEndComponent, NavbarItemsComponent],
+  imports: [
+    NavbarEndComponent,
+    NavbarSideMenuItemsComponent,
+    NavbarCenterMenuItemsComponent,
+  ],
   template: `
     <div class="navbar bg-base-100">
       <div class="navbar-start">
@@ -27,19 +33,12 @@ import { NavbarItemsComponent } from './components/navbar-items.component';
               />
             </svg>
           </div>
-          <ul
-            tabindex="0"
-            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-          >
-            <app-navbar-items />
-          </ul>
+          <app-navbar-side-menu-items />
         </div>
         <a class="btn btn-ghost text-xl">daisyUI</a>
       </div>
       <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1">
-          <app-navbar-items />
-        </ul>
+        <app-navbar-center-menu-items [linkItems]="navbarItems" />
       </div>
       <div class="navbar-end">
         <app-navbar-end />
@@ -48,4 +47,9 @@ import { NavbarItemsComponent } from './components/navbar-items.component';
   `,
   styles: ``,
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+  navbarItems: LinkItem[] = [
+    { path: '/learning1', text: 'Learning 1' },
+    { path: '/learning2', text: 'Learning 2' },
+  ];
+}
