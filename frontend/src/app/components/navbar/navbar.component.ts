@@ -38,9 +38,7 @@ import { GolfStore } from '@shared/golf.store';
           </div>
           <app-navbar-side-menu-items [linkItems]="navbarItems" />
         </div>
-        <a routerLink="/" class="btn btn-ghost text-xl"
-          >Applied Angular ({{ golfStore.totalScore() }})</a
-        >
+        <a routerLink="/" class="btn btn-ghost text-xl">Applied Angular</a>
       </div>
       <div class="navbar-center hidden lg:flex">
         <app-navbar-center-menu-items [linkItems]="navbarItems" />
@@ -53,9 +51,8 @@ import { GolfStore } from '@shared/golf.store';
   styles: ``,
 })
 export class NavbarComponent {
-  golfStore = inject(GolfStore);
   navbarItems: LinkItem[] = [
     { path: '/learning', text: 'Learning' },
-    { path: '/learning2', text: 'Learning 2' },
+    { path: '/halloween', text: 'Halloween' },
   ];
 }
