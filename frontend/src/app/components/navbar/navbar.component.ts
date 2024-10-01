@@ -1,10 +1,17 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  signal,
+  computed,
+} from '@angular/core';
 import { NavbarEndComponent } from './components/navbar-end.component';
 import { NavbarSideMenuItemsComponent } from './components/navbar-side-menu-items.component';
 import { NavbarCenterMenuItemsComponent } from './components/navbar-center-menu-items.component';
 import { LinkItem } from './types';
 import { RouterLink } from '@angular/router';
 import { GolfStore } from '@shared/golf.store';
+import { UserStore } from '@shared/user.store';
 
 @Component({
   selector: 'app-navbar',
@@ -36,12 +43,12 @@ import { GolfStore } from '@shared/golf.store';
               />
             </svg>
           </div>
-          <app-navbar-side-menu-items [linkItems]="navbarItems" />
+          <app-navbar-side-menu-items [linkItems]="navbarItems()" />
         </div>
         <a routerLink="/" class="btn btn-ghost text-xl">Applied Angular</a>
       </div>
       <div class="navbar-center hidden lg:flex">
-        <app-navbar-center-menu-items [linkItems]="navbarItems" />
+        <app-navbar-center-menu-items [linkItems]="navbarItems()" />
       </div>
       <div class="navbar-end">
         <app-navbar-end />
@@ -51,8 +58,17 @@ import { GolfStore } from '@shared/golf.store';
   styles: ``,
 })
 export class NavbarComponent {
-  navbarItems: LinkItem[] = [
+  #navbarItems: LinkItem[] = [
     { path: '/learning', text: 'Learning' },
     { path: '/halloween', text: 'Halloween' },
   ];
+
+  userStore = inject(UserStore);
+  navbarItems = computed(() => {
+    if (this.userStore.userLoggedIn()) {
+      return this.#navbarItems;
+    } else {
+      return [];
+    }
+  });
 }
