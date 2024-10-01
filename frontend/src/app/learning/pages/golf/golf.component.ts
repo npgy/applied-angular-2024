@@ -2,27 +2,28 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   signal,
 } from '@angular/core';
-type GolfHole = {
-  holeNumber: number;
-  score: number;
-};
+import { IncrementButtonDirective } from '@shared/increment-button.directive';
+import { DecrementButtonDirective } from '@shared/decrement-button.directive';
+import { GolfStore } from '@shared/golf.store';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [IncrementButtonDirective, DecrementButtonDirective],
+  providers: [],
   template: `
     <div>
       <div>
-        <button class="btn btn-primary" (click)="increment()">+</button>
-        <span>{{ currentScore() }}</span>
-        <button class="btn btn-primary" (click)="decrement()">-</button>
-        <button class="btn btn-primary" (click)="sunk()">Sunk</button>
+        <button appIncrementButton (click)="service.increment()">+</button>
+        <span>{{ service.currentScore() }}</span>
+        <button appDecrementButton (click)="service.decrement()">-</button>
+        <button class="btn btn-primary" (click)="service.sunk()">Sunk</button>
       </div>
       <ul>
-        @for(hole of holes(); track hole.holeNumber){
+        @for(hole of service.holes(); track hole.holeNumber){
         <li>Hole {{ hole.holeNumber }}: {{ hole.score }}</li>
         } @empty {
         <p>
@@ -30,34 +31,11 @@ type GolfHole = {
         </p>
         }
       </ul>
-      <p>Youre total score is {{ this.totalScore() }}</p>
+      <p>Youre total score is {{ service.totalScore() }}</p>
     </div>
   `,
   styles: ``,
 })
 export class GolfComponent {
-  currentScore = signal(0);
-  currentHole = signal(1);
-  holes = signal<GolfHole[]>([]);
-
-  totalScore = computed(() =>
-    this.holes()
-      .map((s) => s.score)
-      .reduce((a, b) => a + b)
-  );
-  increment() {
-    this.currentScore.update((n) => n + 1);
-  }
-  decrement() {
-    this.currentScore.update((n) => n - 1);
-  }
-  sunk() {
-    const hole: GolfHole = {
-      holeNumber: this.currentHole(),
-      score: this.currentScore(),
-    };
-    this.holes.update((h) => [...h, hole]);
-    this.currentScore.set(0);
-    this.currentHole.update((h) => h + 1);
-  }
+  service = inject(GolfStore);
 }

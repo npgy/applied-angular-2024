@@ -1,9 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { NavbarEndComponent } from './components/navbar-end.component';
 import { NavbarSideMenuItemsComponent } from './components/navbar-side-menu-items.component';
 import { NavbarCenterMenuItemsComponent } from './components/navbar-center-menu-items.component';
 import { LinkItem } from './types';
 import { RouterLink } from '@angular/router';
+import { GolfStore } from '@shared/golf.store';
 
 @Component({
   selector: 'app-navbar',
@@ -37,7 +38,9 @@ import { RouterLink } from '@angular/router';
           </div>
           <app-navbar-side-menu-items [linkItems]="navbarItems" />
         </div>
-        <a routerLink="/" class="btn btn-ghost text-xl">Applied Angular</a>
+        <a routerLink="/" class="btn btn-ghost text-xl"
+          >Applied Angular ({{ golfStore.totalScore() }})</a
+        >
       </div>
       <div class="navbar-center hidden lg:flex">
         <app-navbar-center-menu-items [linkItems]="navbarItems" />
@@ -50,6 +53,7 @@ import { RouterLink } from '@angular/router';
   styles: ``,
 })
 export class NavbarComponent {
+  golfStore = inject(GolfStore);
   navbarItems: LinkItem[] = [
     { path: '/learning', text: 'Learning' },
     { path: '/learning2', text: 'Learning 2' },
